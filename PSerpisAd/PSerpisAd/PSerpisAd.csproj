@@ -6,7 +6,7 @@
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{9583B90F-F1F5-47D2-88AB-EDBFC7EFDF67}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>PSerpisAd</RootNamespace>
     <AssemblyName>PSerpisAd</AssemblyName>
   </PropertyGroup>
@@ -58,6 +58,9 @@
     </Reference>
     <Reference Include="Mono.Posix" />
     <Reference Include="System.Data" />
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\..\..\..\usr\lib\cli\MySql.Data-6.4\MySql.Data.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
@@ -66,7 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />
-    <Compile Include="gtk-gui\MainWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App.cs" />
     <Compile Include="PersisterHelper.cs" />
