@@ -29,6 +29,24 @@ namespace SerpisAd
 			foreach (TreeViewColumn treeViewColumn in treeViewColumns)
 				treeView.RemoveColumn(treeViewColumn);        
 		}
+
+		public static bool IsSelected(TreeView treeView) {
+			//forma 1
+			//return GetId (treeView) !=null;
+			//forma 2
+			TreeIter treeIter;
+			return treeView.Selection.GetSelected (out treeIter);
+			//forma 3
+			//treeView.Selection.CountSelectedRows () !=0 ;
+		}
+
+		public static object GetId(TreeView treeView) {
+			TreeIter treeIter;
+			if (!treeView.Selection.GetSelected (out treeIter))
+				return null;
+			IList row = (IList)treeView.Model.GetValue(treeIter, 0);
+			return row[0];
+		}
 	}
 }
 
