@@ -1,6 +1,7 @@
 using System;
-using Gtk;
 using System.Collections;
+using System.Data;
+using Gtk;
 
 using SerpisAd;
 using PArticulo;
@@ -10,11 +11,9 @@ public partial class MainWindow: Gtk.Window
 	public MainWindow (): base (Gtk.WindowType.Toplevel)
 	{
 		Build ();
-		Title = "Articulo";
+		Title = "Artículo";
 		Console.WriteLine ("MainWindow ctor.");
-		QueryResult queryResult = PersisterHelper.Get ("select * from articulo");
-		TreeViewHelper.Fill (treeView, queryResult);
-
+		fillTreeView ();
 
 		newAction.Activated += delegate {
 			new ArticuloView();
@@ -26,56 +25,56 @@ public partial class MainWindow: Gtk.Window
 
 		deleteAction.Activated += delegate {
 			object id = TreeViewHelper.GetId(treeView);
-			Console.WriteLine ("click en deleteAction id={0}", id);
-			delete (id);
+			Console.WriteLine("click en deleteAction id={0}", id);
+			delete(id);
 
+		};
+
+		editAction.Activated += delegate {
+			object id = TreeViewHelper.GetId(treeView);
+
+			new ArticuloView(id);
 		};
 
 		treeView.Selection.Changed += delegate {
-			Console.WriteLine ("ha ocurrido un treeVIew.Selection.Change");
-			deleteAction.Sensitive = GetId (treeView) != null;
+			Console.WriteLine("ha ocurrido treeView.Selection.Changed");
+			bool isSelected = TreeViewHelper.IsSelected(treeView);
+			deleteAction.Sensitive = isSelected;
+			editAction.Sensitive = isSelected;
 		};
+
+
+
+		deleteAction.Sensitive = false;
+		editAction.Sensitive = false;
+
 		//newAction.Activated += newActionActivated;
 	}
-		private void fillTreeView() {
-			QueryResult queryResult = PersisterHelper.Get ("select * from articulo");
-			TreeViewHelper.Fill (treeView, queryResult);
-		}
-	private void  delete(object id) {
-		if (ConfirmDelete (this))
-			Console.WriteLine ("Dice que eliminar si");
+
+	private void delete(object id) {
+		if (!WindowHelper.ConfirmDelete (this))
+			return;
+		IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand ();
+		dbCommand.CommandText = "delete from articulo where id = @id";
+		DbCommandHelper.addParameter (dbCommand, "id", id);
+		dbCommand.ExecuteNonQuery ();
+		fillTreeView ();
 	}
 
-	public bool ConfirmDelete(Window window) {
-		MessageDialog messageDialog = new MessageDialog (
-			window, 
-			DialogFlags.DestroyWithParent,
-			MessageType.Question,
-			ButtonsType.YesNo,
-			"¿Quieres eliminar el elemento seleccionado?"
-			);
-		messageDialog.Title = window.Title;
-		ResponseType response = (ResponseType)messageDialog.Run ();
-		messageDialog.Destroy ();
-		return response == ResponseType.Yes;
+	private void fillTreeView() {
+		QueryResult queryResult = PersisterHelper.Get ("select * from articulo");
+		TreeViewHelper.Fill (treeView, queryResult);
 	}
 
-
-	public static object GetId(TreeView treeView) {
-		TreeIter treeIter;
-		if (!treeView.Selection.GetSelected (out treeIter))
-			return null;
-		IList row = (IList)treeView.Model.GetValue(treeIter, 0);
-		return row[0];
-	}
-
+	//	void newActionActivated (object sender, EventArgs e)
+	//	{
+	//		new ArticuloView ();
+	//	}
 
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 	{
 		Application.Quit ();
 		a.RetVal = true;
 	}
-
-
 
 }

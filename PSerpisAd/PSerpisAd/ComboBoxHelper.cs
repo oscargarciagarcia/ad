@@ -7,7 +7,7 @@ namespace SerpisAd
 {
 	public class ComboBoxHelper
 	{
-		public static void Fill(ComboBox comboBox, QueryResult queryResult) {
+		public static void Fill(ComboBox comboBox, QueryResult queryResult, object id) {
 			CellRendererText cellRendererText = new CellRendererText ();
 			comboBox.PackStart (cellRendererText, false);
 			comboBox.SetCellDataFunc (cellRendererText, 
