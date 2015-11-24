@@ -12,7 +12,7 @@ namespace PArticulo
 		private string nombre = "";
 		private object categoria = null;
 		private decimal precio = 0;
-
+		System.Action save;
 //		public static ArticuloView New() {
 //			return new ArticuloView ();
 //		}
@@ -24,6 +24,9 @@ namespace PArticulo
 		public ArticuloView () : base(Gtk.WindowType.Toplevel)
 		{
 			init ();
+			saveAction.Activated += delegate {
+				insert ();
+			};
 		}
 
 		public ArticuloView(object id) :base(WindowType.Toplevel) {
