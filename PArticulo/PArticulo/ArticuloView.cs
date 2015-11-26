@@ -18,6 +18,7 @@ namespace PArticulo
 
 		public ArticuloView () : base(Gtk.WindowType.Toplevel)
 		{
+			articulo = new Articulo ();
 			init ();
 			saveAction.Activated += delegate {
 				insert ();
@@ -71,6 +72,8 @@ namespace PArticulo
 			nombre = entryNombre.Text;
 			categoria = ComboBoxHelper.GetId (comboboxCategoria);
 			precio = Convert.ToDecimal(spinbuttonPrecio.Value);
+			//si quiero que el precio no me pete cuando sea null, tengo que cambiarlo a tipo object. 
+			//aqui tambien tendria que añadir un Convert.ToDouble
 
 			DbCommandHelper.addParameter (dbCommand, "nombre", nombre);
 			DbCommandHelper.addParameter (dbCommand, "categoria", categoria);

@@ -10,7 +10,7 @@ namespace PArticulo {
 		private object id;
 		private string nombre;
 		private object categoria;
-		private decimal precio;
+		private object precio;
 
 		//property de id
 		public object Id {
@@ -31,7 +31,7 @@ namespace PArticulo {
 		}
 
 		//property de precio
-		public decimal Precio {
+		public object Precio {
 			get { return precio; }
 			set { precio = value; }
 		}
