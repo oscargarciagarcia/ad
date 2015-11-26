@@ -8,18 +8,13 @@ namespace PArticulo
 {
 	public partial class ArticuloView : Gtk.Window
 	{
-		private object id = null;
+		//private object id = null;
 		private string nombre = "";
 		private object categoria = null;
 		private decimal precio = 0;
 		System.Action save;
-//		public static ArticuloView New() {
-//			return new ArticuloView ();
-//		}
-//
-//		public static ArticuloView Edit(object id) {
-//			return new ArticuloView (id);
-//		}
+
+		private Articulo articulo;
 
 		public ArticuloView () : base(Gtk.WindowType.Toplevel)
 		{
@@ -30,8 +25,8 @@ namespace PArticulo
 		}
 
 		public ArticuloView(object id) :base(WindowType.Toplevel) {
-			this.id = id;
-			load ();
+			//this.id = id;
+			articulo = ArticuloPersister.Load(id);
 			init ();
 			saveAction.Activated += delegate {	update();	};
 		}
@@ -45,21 +40,21 @@ namespace PArticulo
 			//saveAction.Activated += delegate {	save();	};
 		}
 
-		private void load() {
-			IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand ();
-			dbCommand.CommandText = "select * from articulo where id = @id";
-			DbCommandHelper.addParameter (dbCommand, "id", id);
-			IDataReader dataReader = dbCommand.ExecuteReader ();
-			if (!dataReader.Read ())
-				//TODO throw exception
-				return;
-			nombre = (string)dataReader ["nombre"];
-			categoria = dataReader ["categoria"];
-			if (categoria is DBNull)
-				categoria = null;
-			precio = (decimal)dataReader ["precio"];
-			dataReader.Close ();
-		}
+//		private void load() {
+//			IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand ();
+//			dbCommand.CommandText = "select * from articulo where id = @id";
+//			DbCommandHelper.addParameter (dbCommand, "id", id);
+//			IDataReader dataReader = dbCommand.ExecuteReader ();
+//			if (!dataReader.Read ())
+//				//TODO throw exception
+//				return;
+//			nombre = (string)dataReader ["nombre"];
+//			categoria = dataReader ["categoria"];
+//			if (categoria is DBNull)
+//				categoria = null;
+//			precio = (decimal)dataReader ["precio"];
+//			dataReader.Close ();
+//		}
 
 //		private void save() {
 //			if (id == null)
