@@ -9,9 +9,9 @@ namespace PArticulo
 	public partial class ArticuloView : Gtk.Window
 	{
 		//private object id = null;
-		private string nombre = "";
-		private object categoria = null;
-		private decimal precio = 0;
+//		private string nombre = "";
+//		private object categoria = null;
+//		private decimal precio = 0;
 		System.Action save;
 
 		private Articulo articulo;
@@ -34,10 +34,10 @@ namespace PArticulo
 
 		private void init() {
 			this.Build ();
-			entryNombre.Text = nombre;
+			entryNombre.Text = articulo.Nombre;
 			QueryResult queryResult = PersisterHelper.Get ("select * from categoria");
-			ComboBoxHelper.Fill (comboboxCategoria, queryResult, categoria);
-			spinbuttonPrecio.Value = Convert.ToDouble(precio);
+			ComboBoxHelper.Fill (comboboxCategoria, queryResult, articulo.Categoria);
+			spinbuttonPrecio.Value = Convert.ToDouble(articulo.Precio);
 			//saveAction.Activated += delegate {	save();	};
 		}
 
@@ -65,20 +65,22 @@ namespace PArticulo
 //		}
 
 		private void insert() {
-			IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand ();
-			dbCommand.CommandText = "insert into articulo (nombre, categoria, precio) " +
-				"values (@nombre, @categoria, @precio)";
 
-			nombre = entryNombre.Text;
-			categoria = ComboBoxHelper.GetId (comboboxCategoria);
-			precio = Convert.ToDecimal(spinbuttonPrecio.Value);
+//			IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand ();
+//			dbCommand.CommandText = "insert into articulo (nombre, categoria, precio) " +
+//				"values (@nombre, @categoria, @precio)";
+
+			articulo.Nombre = entryNombre.Text;
+			articulo.Categoria = ComboBoxHelper.GetId (comboboxCategoria);
+			articulo.Precio = Convert.ToDecimal(spinbuttonPrecio.Value);
+			ArticuloPersister.Insert (articulo);
 			//si quiero que el precio no me pete cuando sea null, tengo que cambiarlo a tipo object. 
 			//aqui tambien tendria que añadir un Convert.ToDouble
 
-			DbCommandHelper.addParameter (dbCommand, "nombre", nombre);
-			DbCommandHelper.addParameter (dbCommand, "categoria", categoria);
-			DbCommandHelper.addParameter (dbCommand, "precio", precio);
-			dbCommand.ExecuteNonQuery ();
+//			DbCommandHelper.addParameter (dbCommand, "nombre", nombre);
+//			DbCommandHelper.addParameter (dbCommand, "categoria", categoria);
+//			DbCommandHelper.addParameter (dbCommand, "precio", precio);
+//			dbCommand.ExecuteNonQuery ();
 			Destroy ();
 		}
 
