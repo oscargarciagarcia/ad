@@ -19,6 +19,8 @@ namespace PArticulo
 		public ArticuloView () : base(Gtk.WindowType.Toplevel)
 		{
 			articulo = new Articulo ();
+			articulo.Nombre = "";
+			//esto de las "" es para que el valor por defecto del nombre sea vacío, y no null
 			init ();
 			saveAction.Activated += delegate {
 				insert ();
@@ -86,6 +88,11 @@ namespace PArticulo
 
 		private void update() {
 			Console.WriteLine("update");
+			articulo.Nombre = entryNombre.Text;
+			articulo.Categoria = ComboBoxHelper.GetId (comboboxCategoria);
+			articulo.Precio = Convert.ToDecimal(spinbuttonPrecio.Value);
+			ArticuloPersister.Update (articulo);
+			Destroy ();
 		}
 	}
 }

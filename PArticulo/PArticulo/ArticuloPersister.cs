@@ -42,7 +42,16 @@ namespace PArticulo {
 			//el ExecuteNonQuery devuelve cuantas filas son aceptadas
 		}
 
-		public static void update (Articulo articulo) {
+		public static void Update (Articulo articulo) {
+			IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand ();
+			dbCommand.CommandText = "update articulo set nombre = @nombre, categoria = @categoria, " +
+				"precio = @precio where id = @id";
+
+			DbCommandHelper.addParameter (dbCommand, "nombre", articulo.Nombre);
+			DbCommandHelper.addParameter (dbCommand, "categoria", articulo.Categoria);
+			DbCommandHelper.addParameter (dbCommand, "precio", articulo.Precio);
+			DbCommandHelper.addParameter (dbCommand, "id", articulo.Id);
+			dbCommand.ExecuteNonQuery ();
 		}
 	}
 }
