@@ -22,12 +22,19 @@ namespace PArticulo {
 			if (!dataReader.Read ())
 				return null;
 			articulo.Nombre = (string)dataReader ["nombre"];
-			articulo.Categoria = dataReader ["categoria"];
+			articulo.Categoria =  get (dataReader ["categoria"], null);
 			if (articulo.Categoria is DBNull)
 				articulo.Categoria = null;
-			articulo.Precio = (decimal)dataReader ["precio"];
+			articulo.Precio = (decimal) get(dataReader ["precio"], decimal.Zero);
 			dataReader.Close ();
+
 			return articulo;
+		}
+
+		private static object get(object value, object defaultValue) {
+			return value is DBNull ? defaultValue : value;
+			//el simbolo "?" quiere decir que, teniendo en cuenta lo de la izquierda del mismo devuelve lo de la
+			//izquierda de los puntos (true), si no devuelve lo de la derecha (false)
 		}
 
 		public static void Insert (Articulo articulo) {
