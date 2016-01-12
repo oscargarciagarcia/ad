@@ -35,8 +35,8 @@ public class PruebaArticulo {
 		System.out.println("* 2. Borrar                    *");
 		System.out.println("* 3. Mostrar Tabla             *");
 		System.out.println("* 4. Leer (muestra un articulo)*");
-		System.out.println("* 5. Salir                     *");
-		System.out.println("* 6. Editar                    *");
+		System.out.println("* 5. Editar                    *");
+		System.out.println("* 6. Salir                     *");
 		System.out.println("********************************");
 		//leer, editar
 		System.out.println("");
@@ -70,10 +70,17 @@ public class PruebaArticulo {
 			String sqlMostrar = "SELECT * FROM articulo WHERE id="+idMostrar;
 			ResultSet mostrar = (ResultSet)stat.executeQuery(sqlMostrar);
 			mostrarDatos(mostrar);
+			
+		//Opción 5: Editar
+		}if (opcion == 5) {
+			String editar = "UPDATE articulo set nombre=?, categoria=?, precio=? where id=?";
+			PreparedStatement modificar = (PreparedStatement)conexion.prepareStatement(editar);
+			updateDatos(modificar);
+			
 		}else{	
 	
 		}
-	}while (opcion != 5);
+	}while (opcion != 6);
 	conexion.close();
 	System.out.println();
 	System.out.println(" ¡¡ Fin de la conexión !! ");
@@ -128,8 +135,22 @@ public class PruebaArticulo {
 		return borrar.executeUpdate();
 	}
 	//Metodo Upadte
-	//private static int updateDatos (PreparedStatement updatear) throws SQLException {
-	//	System.out.println("Que articulo quieres modificar");
+	private static int updateDatos (PreparedStatement updatear) throws SQLException {
+		System.out.println("Que articulo quieres modificar");
+		int idEditar = tcl.nextInt();
+		updatear.setInt(4,  idEditar);
+		tcl.nextLine();
+		System.out.println("Nuevo nombre: ");
+		String nuevoN = tcl.nextLine();
+		updatear.setString(1, nuevoN);
+		System.out.println("Nueva categoria ");
+		int nuevoC = tcl.nextInt();
+		updatear.setInt(2, nuevoC);
+		System.out.println("Nuevo precio ");
+		double nuevoP = tcl.nextDouble();
+		updatear.setDouble(3, nuevoP);
+		return updatear.executeUpdate();
+	}
 		
 	//}
 	
