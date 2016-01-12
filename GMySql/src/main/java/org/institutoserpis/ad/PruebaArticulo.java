@@ -21,21 +21,30 @@ public class PruebaArticulo {
 		Statement stat = conexion.createStatement();
 		
 		//Muestro la tabla
-		//ResultSet result1 = stat.executeQuery("SELECT * FROM artiuclo");
-		//mostrarDatos(result1);
+		ResultSet result1 = stat.executeQuery("SELECT * FROM articulo");
+		mostrarDatos(result1);
 		
 		int opcion;
 		//Menu
 	do {	
-		System.out.println("1. Insertar");
-		System.out.println("2. Borrar");
-		System.out.println("3. Mostrar Tabla");
-		System.out.println("4. Salir");
+		System.out.println("");
+		System.out.println("********************************");
+		System.out.println("* Opciones                     *");
+		System.out.println("********************************");
+		System.out.println("* 1. Insertar                  *");
+		System.out.println("* 2. Borrar                    *");
+		System.out.println("* 3. Mostrar Tabla             *");
+		System.out.println("* 4. Leer (muestra un articulo)*");
+		System.out.println("* 5. Salir                     *");
+		System.out.println("* 6. Editar                    *");
+		System.out.println("********************************");
+		//leer, editar
 		System.out.println("");
 		System.out.println("Que quieres hacer? ");
 		opcion = tcl.nextInt();
 		//con el nextLine() limpio el buffer
 		tcl.nextLine();
+		System.out.println(" ");
 		
 		//Opcion 1: Insertar datos
 		if (opcion == 1){
@@ -53,15 +62,23 @@ public class PruebaArticulo {
 		}if (opcion == 3){
 			ResultSet result = stat.executeQuery("SELECT * FROM articulo");
 			mostrarDatos(result);
-		}else{	
 			
-		
+		//Opción 4: Leer (muestra solo un articulo)	
+		}if (opcion == 4){
+			System.out.println("Que id quieres mostrar? ");
+			int idMostrar = tcl.nextInt();
+			String sqlMostrar = "SELECT * FROM articulo WHERE id="+idMostrar;
+			ResultSet mostrar = (ResultSet)stat.executeQuery(sqlMostrar);
+			mostrarDatos(mostrar);
+		}else{	
+	
 		}
-	}while (opcion != 4);
+	}while (opcion != 5);
 	conexion.close();
 	System.out.println();
-	System.out.println("Fin");
+	System.out.println(" ¡¡ Fin de la conexión !! ");
 }
+
 	//Metodo Mostrar
 	private static void mostrarDatos(ResultSet resultSet) throws SQLException {
 		//esto muestra el nombre de las columnas	
