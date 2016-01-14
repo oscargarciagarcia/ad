@@ -120,12 +120,25 @@ public class PruebaArticulo {
 		//categoria
 		System.out.print("Introduce la categoria (1, 2 o 3): ");
 		int categoriaInsert = tcl.nextInt();
+		//Condicion para que la categoria sea 1, 2 o 3
+		if (categoriaInsert < 1 || categoriaInsert > 3){
+			System.out.println("Introduce una categoria válida: 1, 2 o 3.");
+			categoriaInsert = tcl.nextInt();
+			//Bucle para que me aparezca el "error" y me pida la categoria correcta.
+			while (categoriaInsert < 1 || categoriaInsert > 3) {
+				System.out.println("Introduce una categoria válida: 1, 2 o 3.");
+				categoriaInsert = tcl.nextInt();
+			}
+			insertar.setInt(2, categoriaInsert);
+		}else{
 		insertar.setInt(2, categoriaInsert);
+		}
 		//precio
 		System.out.print("Introduce el precio: ");
 		Double precioInsert = tcl.nextDouble();
 		insertar.setDouble(3, precioInsert);
-		return insertar.executeUpdate();	
+		
+		return insertar.executeUpdate();
 	}
 	//Metodo Borrar
 	private static int borrarDatos(PreparedStatement borrar) throws SQLException {
@@ -136,7 +149,7 @@ public class PruebaArticulo {
 	}
 	//Metodo Upadte
 	private static int updateDatos (PreparedStatement updatear) throws SQLException {
-		System.out.println("Que articulo quieres modificar");
+		System.out.println("Que articulo quieres modificar?");
 		int idEditar = tcl.nextInt();
 		updatear.setInt(4,  idEditar);
 		tcl.nextLine();
