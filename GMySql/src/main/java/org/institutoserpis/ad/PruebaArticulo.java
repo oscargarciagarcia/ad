@@ -146,7 +146,7 @@ public class PruebaArticulo {
 		int idBorrar = tcl.nextInt();
 		borrar.setInt(1, idBorrar);
 		return borrar.executeUpdate();
-	}
+	} 
 	//Metodo Upadte
 	private static int updateDatos (PreparedStatement updatear) throws SQLException {
 		System.out.println("Que articulo quieres modificar?");
