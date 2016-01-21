@@ -11,7 +11,7 @@
 
     <persistence-unit name="org.institutoserpis.ad">
         <description>
-            Persistence unit for the GHibernate de Oscar
+            Persistence unit for the GHibernate
         </description>
 
         <class>org.institutoserpis.ad.Articulo</class>
