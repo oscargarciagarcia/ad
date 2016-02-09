@@ -3,8 +3,11 @@ package org.institutoserpis.ad;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -13,20 +16,12 @@ public class Articulo {
 
 	private Long id;
 	private String nombre;
-	private Long categoria;
+	private Categoria categoria;
 	private BigDecimal precio;
 	
 	@Id
 	@GeneratedValue(generator="increment")
 	@GenericGenerator(name="increment", strategy="increment")
-	
-	//constructor
-	/*public Articulo(Long id, String nombre, Long categoria, BigDecimal precio) {
-		this.id = id;
-		this.nombre = nombre;
-		this.categoria = categoria;
-		this.precio = precio;
-	}*/
 	
 	//get - set de id
 	public Long getId() {
@@ -44,11 +39,14 @@ public class Articulo {
 		this.nombre = nombre;
 	}
 	
+	//Con el LAZY solo lee de la tabla de categoria si es necesario.
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="categoria")
 	//get - set de categoria
-	public Long getCategoria() {
+	public Categoria getCategoria() {
 		return categoria;
 	}
-	public void setCategoria(Long categoria) {
+	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
 	
