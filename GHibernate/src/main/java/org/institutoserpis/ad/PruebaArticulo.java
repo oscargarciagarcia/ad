@@ -10,18 +10,21 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import java.util.Scanner;
+
 public class PruebaArticulo {
 	
 	private static EntityManagerFactory entityManagerFactory;
 
 	public static void main(String[] args) {
+		
 		Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
 		
 		System.out.println("inicio");
 		entityManagerFactory = Persistence.createEntityManagerFactory("org.institutoserpis.ad");
 		
 		//find articulo con id2
-//		Long articuloId = persist();
+		Long articuloId = persist();
 //		update(articuloId);
 //		find(articuloId);
 //		remove(articuloId);
@@ -62,12 +65,17 @@ public class PruebaArticulo {
 	}
 	
 	private static Long persist(){
+		Scanner tcl = new Scanner(System.in);
 		System.out.println("persist: ");
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		entityManager.getTransaction().begin();
 		//creamos un articulo, le establezco un nombre. El persist es un insert
 		Articulo articulo = new Articulo();
-		articulo.setNombre("nuevo " + new Date());
+		System.out.println("Introduce un nuevo articulo: ");
+		String nuevo = tcl.nextLine();
+		//articulo.setNombre("nuevo " + new Date());
+		articulo.setNombre(nuevo);
+		entityManager.persist(articulo);
 		entityManager.persist(articulo);
 		entityManager.getTransaction().commit();
 		entityManager.close();
